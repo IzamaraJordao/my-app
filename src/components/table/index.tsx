@@ -9,12 +9,14 @@ interface TableComponentProps {
   data: any[];
   columns: string[];
   defaultPageSize?: number;
+  setColumn?: any;
 }
 
 export function TableComponent({
   data,
   columns,
   defaultPageSize,
+  setColumn
 }: TableComponentProps) {
   const [currentPage, setCurrentPage] = useState(1);
   const [pageSize, setPageSize] = useState(defaultPageSize || 10);
@@ -78,6 +80,7 @@ console.log("sortOrder", sortOrder)
               onFilterChange={handleFilterChange} 
               setSortOrder={setSortOrder}
               sortOrder={sortOrder}
+              setColumn={setColumn}
             />
           </tr>
         </thead>

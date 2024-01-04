@@ -1,7 +1,7 @@
 import React, { Fragment, useEffect, useState } from "react";
 import { FormControl } from "react-bootstrap";
 import { BsArrowUp, BsArrowDown } from "react-icons/bs";
-import { Grouping } from "../grouping";
+
 
 interface TableFilterProps {
   columns: string[];
@@ -21,6 +21,7 @@ interface TableFilterProps {
         column: string;
       }
     | undefined;
+  setColumn?: any;
 }
 
 const TableFilter: React.FC<TableFilterProps> = ({
@@ -28,6 +29,7 @@ const TableFilter: React.FC<TableFilterProps> = ({
   onFilterChange,
   setSortOrder,
   sortOrder,
+  setColumn,
 }) => {
   const [activeColumn, setActiveColumn] = useState<string | null>(null);
   const [filterOptions, setFilterOptions] = useState<{ [key: string]: string }>(
@@ -93,7 +95,12 @@ const TableFilter: React.FC<TableFilterProps> = ({
               onChange={(e) => handleFilterChange(column, e.target.value)}
             />
           ) : (
-            <th style={{ width: "200px", cursor: "pointer" }}>
+            <th
+              onDoubleClick={()=>{ 
+                setColumn(column) 
+              }}
+              style={{ width: "200px", cursor: "pointer" }}
+            >
               <div
                 style={{
                   display: "flex",
@@ -128,7 +135,7 @@ const TableFilter: React.FC<TableFilterProps> = ({
               </div>
             </th>
           )}
-          <Grouping columns={columns} />
+          
         </Fragment>
       ))}
     </>
