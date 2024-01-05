@@ -1,27 +1,30 @@
-import React, { Fragment, useEffect, useState } from "react";
-import { FormControl } from "react-bootstrap";
-import { BsArrowUp, BsArrowDown } from "react-icons/bs";
-
-
+import React, { Fragment, useEffect, useState } from 'react'
+import {
+  MdKeyboardDoubleArrowUp,
+  MdKeyboardDoubleArrowDown,
+} from 'react-icons/md'
+import './styles.scss'
+import { translateColumn } from '../../helpers/translation'
+import { Search } from '../search'
 interface TableFilterProps {
-  columns: string[];
-  onFilterChange: (column: string, value: string) => void;
+  columns: string[]
+  onFilterChange: (column: string, value: string) => void
   setSortOrder: React.Dispatch<
     React.SetStateAction<
       | {
-          order: "asc" | "desc";
-          column: string;
+          order: 'asc' | 'desc'
+          column: string
         }
       | undefined
     >
-  >;
+  >
   sortOrder:
     | {
-        order: "asc" | "desc";
-        column: string;
+        order: 'asc' | 'desc'
+        column: string
       }
-    | undefined;
-  setColumn?: any;
+    | undefined
+  setColumn?: any
 }
 
 const TableFilter: React.FC<TableFilterProps> = ({
@@ -31,115 +34,100 @@ const TableFilter: React.FC<TableFilterProps> = ({
   sortOrder,
   setColumn,
 }) => {
-  const [activeColumn, setActiveColumn] = useState<string | null>(null);
+  const [activeColumn, setActiveColumn] = useState<string | null>(null)
   const [filterOptions, setFilterOptions] = useState<{ [key: string]: string }>(
-    {}
-  );
+    {},
+  )
 
   function pressColumnSearch(column: string) {
-    setActiveColumn(column === activeColumn ? null : column);
+    setActiveColumn(column === activeColumn ? null : column)
   }
 
   function toggleSortOrder(column: string) {
     setSortOrder((prevSortOrder) => {
       if (prevSortOrder?.column === column) {
         return {
-          order: prevSortOrder.order === "asc" ? "desc" : "asc",
+          order: prevSortOrder.order === 'asc' ? 'desc' : 'asc',
           column,
-        };
+        }
       }
 
       return {
-        order: "asc",
+        order: 'asc',
         column,
-      };
-    });
+      }
+    })
   }
 
   function handleFilterChange(column: string, value: string) {
     setFilterOptions((prevFilterOptions) => ({
       ...prevFilterOptions,
       [column]: value,
-    }));
-    onFilterChange(column, value);
+    }))
+    onFilterChange(column, value)
   }
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === "Escape") {
-        setActiveColumn(null);
+      if (e.key === 'Escape') {
+        setActiveColumn(null)
       }
-    };
+    }
 
-    window.addEventListener("keydown", handleKeyDown);
+    window.addEventListener('keydown', handleKeyDown)
 
     return () => {
-      window.removeEventListener("keydown", handleKeyDown);
-    };
-  }, [activeColumn]);
+      window.removeEventListener('keydown', handleKeyDown)
+    }
+  }, [activeColumn])
 
   return (
     <>
       {columns.map((column, index) => (
         <Fragment key={index}>
           {activeColumn === column ? (
-            <FormControl
-              type="text"
-              style={{
-                width: "100%",
-                border: "none",
-                borderBottom: "1px solid black",
-                borderRadius: "0px",
-              }}
-              placeholder={column}
-              onChange={(e) => handleFilterChange(column, e.target.value)}
-            />
+            <th style={{ background: '#7f56d9' }}>
+              <Search handleFilterChange={handleFilterChange} column={column} />
+            </th>
           ) : (
             <th
-              onDoubleClick={()=>{ 
-                setColumn(column) 
+              className="containerThead"
+              onDoubleClick={() => {
+                setColumn(column)
               }}
-              style={{ width: "200px", cursor: "pointer" }}
+              style={{ width: '200px', cursor: 'pointer' }}
             >
-              <div
-                style={{
-                  display: "flex",
-                  width: "100%",
-                  gap: "0.5rem",
-                  alignItems: "center",
-                }}
-              >
+              <div className="form">
                 <p
                   onClick={() => {
-                    pressColumnSearch(column);
+                    pressColumnSearch(column)
                   }}
                 >
-                  {column}
+                  {translateColumn(column)}
                 </p>
                 <button
                   onClick={() => toggleSortOrder(column)}
                   style={{
-                    cursor: "pointer",
-                    border: "none",
-                    backgroundColor: "transparent",
-                    textAlign: "center",
+                    cursor: 'pointer',
+                    border: 'none',
+                    backgroundColor: 'transparent',
+                    textAlign: 'center',
                   }}
                 >
                   {column === sortOrder?.column &&
-                  sortOrder?.order === "asc" ? (
-                    <BsArrowUp fontSize={"1.3rem"} />
+                  sortOrder?.order === 'asc' ? (
+                    <MdKeyboardDoubleArrowUp fontSize={'1.3rem'} />
                   ) : (
-                    <BsArrowDown fontSize={"1.3rem"} />
+                    <MdKeyboardDoubleArrowDown fontSize={'1.3rem'} />
                   )}
                 </button>
               </div>
             </th>
           )}
-          
         </Fragment>
       ))}
     </>
-  );
-};
+  )
+}
 
-export { TableFilter };
+export { TableFilter }

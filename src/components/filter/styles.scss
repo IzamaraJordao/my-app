@@ -1,0 +1,22 @@
+.containerThead {
+  background-color: #7f56d9 !important;
+
+  .form {
+    color: #fff;
+    display: flex;
+    width: 100%;
+    gap: 0.5rem;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+  }
+}
+
+.input {
+  padding: 0;
+  background: #7f56d9;
+  color: #fff;
+}
+th {
+  background: #7f56d9;
+}

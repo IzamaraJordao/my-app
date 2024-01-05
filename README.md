@@ -1,46 +1,67 @@
-# Getting Started with Create React App
+# Aplicativo de Tabela Dinâmica com React, Bootstrap, Sass, Axios e outras bibliotecas
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Este é um aplicativo de tabela dinâmica construído com React, Bootstrap, Sass, Axios e outras bibliotecas. Ele permite visualizar e interagir com dados de produtos de maquiagem obtidos a partir da [Makeup API](https://makeup-api.herokuapp.com/).
 
-## Available Scripts
+## Funcionalidades
 
-In the project directory, you can run:
+- **Tabela Dinâmica:** Exibe os dados dos produtos em uma tabela com recursos de paginação, filtragem e ordenação.
 
-### `npm start`
+- **Filtragem:** Permite filtrar os dados com base em valores específicos em colunas selecionadas.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+- **Ordenação:** Possui a capacidade de ordenar os dados com base em colunas escolhidas, em ordem ascendente ou descendente.
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+- **Agrupamento de Colunas:** Oferece a opção de selecionar quais colunas deseja exibir na tabela.
 
-### `npm test`
+- **Pesquisa:** Inclui uma barra de pesquisa para filtrar dados de forma rápida e eficiente.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## Tecnologias Utilizadas
 
-### `npm run build`
+- **React:** Biblioteca JavaScript para construir interfaces de usuário.
+- **Bootstrap:** Framework de design para estilização e componentes.
+- **Sass:** Pré-processador CSS para estilização mais avançada.
+- **Axios:** Biblioteca para realizar requisições HTTP no navegador e Node.js.
+- **React Icons:** Biblioteca para ícones em React.
+- **Bootstrap Table:** Extensão do Bootstrap para tabelas interativas.
+- **React Bootstrap:** Componentes Bootstrap adaptados para React.
+- **TypeScript:** Superset JavaScript com tipagem estática.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## Componentes
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+### `TableComponent`
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+O componente principal responsável por renderizar a tabela. Ele inclui funcionalidades como paginação, filtragem e ordenação.
 
-### `npm run eject`
+### `TableFilter`
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+Componente utilizado para realizar a filtragem e ordenação dos dados na tabela.
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+### `TablePagination`
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+Componente que fornece os controles de paginação, permitindo a navegação entre as diferentes páginas de dados.
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+### `Grouping`
 
-## Learn More
+Componente responsável por agrupar os dados da tabela com base em uma coluna escolhida pelo usuário.
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+### `Search`
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+Componente que fornece uma barra de pesquisa para filtrar rapidamente os dados da tabela.
+
+## Estrutura do Projeto
+
+A estrutura do projeto é organizada da seguinte forma:
+
+- `src/`
+  - `components/`: Contém os componentes React utilizados no aplicativo.
+  - `context/`: Armazena o contexto React utilizado para compartilhar estados globais entre os componentes.
+  - `styles/`: Contém os arquivos Sass para estilização.
+
+## Instruções de Uso
+
+1. Clone o repositório: `git clone https://github.com/IzamaraJordao/my-app`
+
+2. Instale as dependências: `npm install`
+
+3. Execute o aplicativo: `npm start`
+
+4. Abra o navegador e acesse [http://localhost:3000](http://localhost:3000).

@@ -1,83 +1,82 @@
-import { useMemo, useState } from "react";
-import { Table } from "react-bootstrap";
-import { MakeupDataProps } from "../../types";
-import TablePagination from "../pagination";
-import { TableFilter } from "../filter";
-import { limitCharacter } from "../../helpers/limitCharacter";
+import { useMemo, useState } from 'react'
+import { Table } from 'react-bootstrap'
+import { MakeupDataProps } from '../../types'
+import TablePagination from '../pagination'
+import { TableFilter } from '../filter'
+import { limitCharacter } from '../../helpers/limitCharacter'
+import './styles.scss'
 
 interface TableComponentProps {
-  data: any[];
-  columns: string[];
-  defaultPageSize?: number;
-  setColumn?: any;
+  data: any[]
+  columns: string[]
+  defaultPageSize?: number
+  setColumn?: any
 }
 
 export function TableComponent({
   data,
   columns,
   defaultPageSize,
-  setColumn
+  setColumn,
 }: TableComponentProps) {
-  const [currentPage, setCurrentPage] = useState(1);
-  const [pageSize, setPageSize] = useState(defaultPageSize || 10);
-  const [filter, setFilter] = useState<{ [key: string]: string }>({});
-  const [sortOrder, setSortOrder] = useState<{ order: "asc" | "desc"; column: string }>();
-
-console.log("sortOrder", sortOrder)
-
+  const [currentPage, setCurrentPage] = useState(1)
+  const [pageSize, setPageSize] = useState(defaultPageSize || 10)
+  const [filter, setFilter] = useState<{ [key: string]: string }>({})
+  const [sortOrder, setSortOrder] = useState<{
+    order: 'asc' | 'desc'
+    column: string
+  }>()
 
   const filteredData = useMemo(() => {
     return data.filter((row) =>
       Object.entries(filter).every(([column, value]) =>
-        String(row[column]).toLowerCase().includes(value.toLowerCase())
-      )
-    );
-  }, [data, filter]);
+        String(row[column]).toLowerCase().includes(value.toLowerCase()),
+      ),
+    )
+  }, [data, filter])
   const currentItems = useMemo(() => {
-    const indexOfLastItem = currentPage * pageSize;
-    const indexOfFirstItem = indexOfLastItem - pageSize;
-  
-    let sortedData = [...filteredData];
-  
+    const indexOfLastItem = currentPage * pageSize
+    const indexOfFirstItem = indexOfLastItem - pageSize
+
+    let sortedData = [...filteredData]
+
     if (sortOrder) {
       sortedData = filteredData.sort((a: any, b: any) => {
         if (a[sortOrder.column] < b[sortOrder.column]) {
-          return sortOrder.order === 'asc' ? -1 : 1;
+          return sortOrder.order === 'asc' ? -1 : 1
         }
         if (a[sortOrder.column] > b[sortOrder.column]) {
-          return sortOrder.order === 'asc' ? 1 : -1;
+          return sortOrder.order === 'asc' ? 1 : -1
         }
-        return 0;
-      });
+        return 0
+      })
     }
-  
-    const paginatedData = sortedData.slice(indexOfFirstItem, indexOfLastItem);
-  
-    return paginatedData;
-  }, [filteredData, sortOrder, currentPage, pageSize]);
+
+    const paginatedData = sortedData.slice(indexOfFirstItem, indexOfLastItem)
+
+    return paginatedData
+  }, [filteredData, sortOrder, currentPage, pageSize])
 
   console.log(currentItems)
-  const handlePageChange = (pageNumber: number) => setCurrentPage(pageNumber);
-  
+  const handlePageChange = (pageNumber: number) => setCurrentPage(pageNumber)
+
   const handlePageSizeChange = (newSize: number) => {
-    setPageSize(newSize);
-    setCurrentPage(1);
-  };
+    setPageSize(newSize)
+    setCurrentPage(1)
+  }
 
   const handleFilterChange = (column: string, value: string) => {
-    setFilter({ ...filter, [column]: value });
-  };
-
-  
+    setFilter({ ...filter, [column]: value })
+  }
 
   return (
-    <div>
-      <Table className="table table-bordered" >
+    <div className="table-responsive mt-4">
+      <Table>
         <thead>
           <tr>
             <TableFilter
               columns={columns}
-              onFilterChange={handleFilterChange} 
+              onFilterChange={handleFilterChange}
               setSortOrder={setSortOrder}
               sortOrder={sortOrder}
               setColumn={setColumn}
@@ -91,9 +90,9 @@ console.log("sortOrder", sortOrder)
                 <td
                   key={colIndex}
                   style={{
-                    textAlign: "center",
-                    width: "100%",
-                    minWidth: "100px",
+                    textAlign: 'center',
+                    width: '100%',
+                    minWidth: '100px',
                   }}
                 >
                   {renderCellContent(row[column], column)}
@@ -103,57 +102,56 @@ console.log("sortOrder", sortOrder)
           ))}
         </tbody>
       </Table>
-      
-        <TablePagination
-          currentPage={currentPage}
-          pageSize={pageSize}
-          totalItems={filteredData.length}
-          onPageChange={handlePageChange}
-          onPageSizeChange={handlePageSizeChange}
-        />
-     
+
+      <TablePagination
+        currentPage={currentPage}
+        pageSize={pageSize}
+        totalItems={filteredData.length}
+        onPageChange={handlePageChange}
+        onPageSizeChange={handlePageSizeChange}
+      />
     </div>
-  );
+  )
 }
 
-function renderProductColors(product: MakeupDataProps["product_colors"]) {
+function renderProductColors(product: MakeupDataProps['product_colors']) {
   if (!product || !Array.isArray(product)) {
-    return "N/A";
+    return 'N/A'
   }
   return product.map((color, index) => (
     <div key={index}>
-      {color.hex_value || "N/A"}-{color.colour_name}
+      {color.hex_value || 'N/A'}-{color.colour_name}
     </div>
-  ));
+  ))
 }
 function renderCellContent(value: string, column: string) {
   const limitTextColumns = [
-    "image_link",
-    "product_link",
-    "website_link",
-    "product_api_url",
-    "api_featured_image",
-  ];
+    'image_link',
+    'product_link',
+    'website_link',
+    'product_api_url',
+    'api_featured_image',
+  ]
 
-  const shouldLimit = limitTextColumns.includes(column);
+  const shouldLimit = limitTextColumns.includes(column)
 
   return shouldLimit ? (
     <a href={value}>{limitCharacter(value)}</a>
-  ) : typeof value === "string" || typeof value === "number" ? (
+  ) : typeof value === 'string' || typeof value === 'number' ? (
     value
   ) : (
-    renderSpecialColumns(value, column) || "N/A"
-  );
+    renderSpecialColumns(value, column) || 'N/A'
+  )
 }
 
 function renderSpecialColumns(
-  value: MakeupDataProps["product_colors"],
-  column: string
+  value: MakeupDataProps['product_colors'],
+  column: string,
 ) {
   switch (column) {
-    case "product_colors":
-      return renderProductColors(value);
+    case 'product_colors':
+      return renderProductColors(value)
     default:
-      return null;
+      return null
   }
 }
